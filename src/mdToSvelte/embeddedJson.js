@@ -27,7 +27,7 @@ class EmbeddedJson {
 
 	static replaceAll(key, html, generateReplacement) {
 		const matches = html.match(generateRegexForObjectWithKnownKey(key));
-		if (!matches) return '';
+		if (!matches) return html;
 
 		matches.forEach(
 			(match, index) => (html = html.replace(match, generateReplacement(index)))
