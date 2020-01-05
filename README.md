@@ -2,7 +2,7 @@ This project creates a static website by converts [Markdown](https://github.com/
 
 The conversion uses [Showdown](https://github.com/showdownjs/showdown), but will extract JSON data set in code blocks in the markdown if it contains an object with a recognised property (currently either "imageSet" or "projectSet").
 
-The path to the Markdown files is set in the `generate:svelte` script included in the `project.json` file.
+The path to the Markdown files is set in the `generate:svelte` script included in the `package.json` file.
 
 ```
     	"generate:svelte": "node src/mdToSvelte/mdToSvelte.js ./path/to/markdown/directory/"
