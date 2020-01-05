@@ -1,4 +1,4 @@
-This project creates a static website by converts [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) files to Svelte components and assembling them from a root component.
+This project creates a static website by converts [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) files to [Svelte](https://svelte.dev/) components and assembling them from a root component.
 
 The conversion uses [Showdown](https://github.com/showdownjs/showdown), but will extract JSON data set in code blocks in the markdown if it contains an object with a recognised property (currently either "imageSet" or "projectSet").
 
@@ -12,7 +12,7 @@ One of the file mst be named `Root.md`.
 
 Sample Markdown:
 
-Root.md:
+`Root.md`:
 
 ````
     # Welcome To My Project Site
@@ -29,7 +29,7 @@ Root.md:
     ```
 ````
 
-ProjectA.md:
+`ProjectA.md`:
 
 ````
     # ProjectA
@@ -37,22 +37,21 @@ ProjectA.md:
     Check out the photos!
     ```
     {
-    "imageSet": {
-        "name": "projectAPhotos"
-        "images": [
-            {
-                "url": "https://pictures.server.com.project_a/1.jpg",
-                "title": "Project A photo 1",
-                "credit": "Photo by me"
-            }
-       ]
+        "imageSet": {
+            "name": "projectAPhotos"
+            "images": [
+                {
+                    "url": "https://pictures.server.com.project_a/1.jpg",
+                    "title": "Project A photo 1",
+                    "credit": "Photo by me"
+                }
+            ]
+        }
     }
-}
     ```
-
 ````
 
-ProjectB.md:
+`ProjectB.md`:
 
 ```
     # ProjectB
