@@ -1,44 +1,24 @@
 const EmbeddedJson = require('./embeddedJson');
-const imageSetImport = `import ImageSet from '../src/ImageSet.svelte';`;
-const projectSetImport = `import ProjectSet from '../src/ProjectSet.svelte';`;
+const ImageSet = require('./imageSet');
+const ProjectSet = require('./projectSet');
 
-function capitalizeInitial(word) {
-	return word[0].toUpperCase() + word.slice(1);
-}
-
-function generateProjectImport(project) {
-	const formatedProject = capitalizeInitial(project);
-	return `import ${formatedProject} from './${formatedProject}.svelte';`;
-}
-
-function generateProjectImports(projects) {
-	if (!projects) return '';
-
-	return `${projectSetImport}${JSON.parse(projects)
-		.map(project => generateProjectImport(project))
-		.join('')}`;
-}
-
-function formatProjects(projects) {
-	return JSON.stringify(
-		JSON.parse(projects).map(project => capitalizeInitial(project))
-	).replace(/"/g, '');
+function generateImports({ imageSets, projectSets } = {}) {
+	return [
+		imageSets ? ImageSet.generateImport() : '',
+		projectSets ? ProjectSet.generateImports(projectSets) : ''
+	].join('');
 }
 
 class ScriptBlock {
 	static generate(html) {
-		const imageSet = EmbeddedJson.extract('imageSet', html);
-		const projects = EmbeddedJson.extract('projects', html);
-		if (!imageSet && !projects) return '';
+		const imageSets = EmbeddedJson.extract('imageSet', html);
+		const projectSets = EmbeddedJson.extract('projects', html);
+		if (!imageSets && !projectSets) return '';
 
-		const imports =
-			(imageSet ? imageSetImport : '') + generateProjectImports(projects);
-		const imageSetConst = imageSet ? `\n\nconst imageSet = ${imageSet};` : '';
-		const projectsConst = projects
-			? `\n\nconst projects = ${formatProjects(projects)};`
-			: '';
-
-		return `<script>${imports}${imageSetConst}${projectsConst}</script>`;
+		const imports = generateImports({ imageSets, projectSets });
+		const imageSetConsts = ImageSet.generateConsts(imageSets);
+		const projectSetConsts = ProjectSet.generateConsts(projectSets);
+		return `<script>${imports}${imageSetConsts}${projectSetConsts}</script>`;
 	}
 }
 

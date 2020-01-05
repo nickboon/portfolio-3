@@ -1,26 +1,25 @@
 const EmbeddedJson = require('./embeddedJson');
-const commentsRegex = /<!--.*?-->/gs;
-const projectSetElement = '<ProjectSet {projects} />';
-const imageSet = {
-	nameAttribute: 'name={imageSet.name}',
-	imagesAttribute: 'images={imageSet.images}'
-};
+const ImageSet = require('./imageSet');
+const ProjectSet = require('./projectSet');
 
-function generateImageSetElement(json) {
-	return `<ImageSet ${JSON.parse(json).name ? imageSet.nameAttribute : ''} ${
-		imageSet.imagesAttribute
-	} />`;
-}
+const commentsRegex = /<!--.*?-->/gs;
 
 class HtmlBlock {
 	static generate(html) {
+		const imageSets = EmbeddedJson.extract('imageSet', html);
+		const projectSets = EmbeddedJson.extract('projects', html);
 		let htmlBlock = html;
-		htmlBlock = EmbeddedJson.replace(
-			'imageSet',
-			htmlBlock,
-			generateImageSetElement(EmbeddedJson.extract('imageSet', html))
-		);
-		htmlBlock = EmbeddedJson.replace('projects', htmlBlock, projectSetElement);
+
+		if (imageSets)
+			htmlBlock = EmbeddedJson.replaceAll('imageSet', htmlBlock, index =>
+				ImageSet.generateElement(imageSets[index], index)
+			);
+
+		if (projectSets)
+			htmlBlock = EmbeddedJson.replaceAll('projects', htmlBlock, index =>
+				ProjectSet.generateElement(index)
+			);
+
 		htmlBlock = htmlBlock.replace(commentsRegex, '');
 
 		return htmlBlock;

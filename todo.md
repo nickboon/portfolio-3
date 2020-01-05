@@ -3,11 +3,10 @@
 ## no js
 
 1. Generate static html
-2. Allow multiple image and project sets per md file
-3. Create reactive grid
-4. Ellide text articles
-5. Automate heading levels for nested projects
-6. Add deploy script
+2. Create reactive grid
+3. Ellide text articles
+4. Automate heading levels for nested projects
+5. Add deploy script
 
 ## With js
 

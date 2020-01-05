@@ -9,7 +9,7 @@ const embeddedJsonRegexSuffix = '\\s?}\\s?</code></pre>';
 function generateRegexForObjectWithKnownKey(key) {
 	return new RegExp(
 		`${embeddedJsonRegexPrefix}"${key}":.*?${embeddedJsonRegexSuffix}`,
-		's'
+		'sg'
 	);
 }
 
@@ -18,13 +18,22 @@ class EmbeddedJson {
 		const matches = html.match(generateRegexForObjectWithKnownKey(key));
 		if (!matches) return '';
 
-		return matches[0]
-			.replace(new RegExp(`${embeddedJsonRegexPrefix}".*":\s*`), '')
-			.replace(new RegExp(embeddedJsonRegexSuffix), '');
+		return matches.map(match =>
+			match
+				.replace(new RegExp(`${embeddedJsonRegexPrefix}".*":\s*`), '')
+				.replace(new RegExp(embeddedJsonRegexSuffix), '')
+		);
 	}
 
-	static replace(key, html, replacement) {
-		return html.replace(generateRegexForObjectWithKnownKey(key), replacement);
+	static replaceAll(key, html, generateReplacement) {
+		const matches = html.match(generateRegexForObjectWithKnownKey(key));
+		if (!matches) return '';
+
+		matches.forEach(
+			(match, index) => (html = html.replace(match, generateReplacement(index)))
+		);
+
+		return html;
 	}
 }
 
