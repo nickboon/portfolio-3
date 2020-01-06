@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import svelteStaticHtml from 'rollup-plugin-svelte-static-html';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -41,6 +42,12 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+
+		svelteStaticHtml({
+			component: 'built/Root.svelte',
+			output: 'public/index.html',
+			template: 'built/index.html'
+		})
 	]
 };

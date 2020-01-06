@@ -1,8 +1,5 @@
 .DS_Store
 node_modules
 public/bundle.*
-public/images
-public/fonts
-public/js
+public/index.html
 built
-
