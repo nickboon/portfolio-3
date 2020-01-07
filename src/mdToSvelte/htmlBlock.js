@@ -3,6 +3,8 @@ const ImageSet = require('./imageSet');
 const ProjectSet = require('./projectSet');
 
 const commentsRegex = /<!--.*?-->/gs;
+const paragraphsRegex = /(<p>.*?<\/p>\s*)+/gs;
+const wrappedParagraphs = '<section>$&</section>';
 
 class HtmlBlock {
 	static generate(html) {
@@ -21,6 +23,8 @@ class HtmlBlock {
 			);
 
 		htmlBlock = htmlBlock.replace(commentsRegex, '');
+
+		htmlBlock = htmlBlock.replace(paragraphsRegex, wrappedParagraphs);
 
 		return htmlBlock;
 	}
