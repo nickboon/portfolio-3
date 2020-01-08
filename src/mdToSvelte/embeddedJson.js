@@ -14,7 +14,7 @@ function generateRegexForObjectWithKnownKey(key) {
 }
 
 class EmbeddedJson {
-	static extract(key, html) {
+	static extractAll(key, html) {
 		const matches = html.match(generateRegexForObjectWithKnownKey(key));
 		if (!matches) return '';
 

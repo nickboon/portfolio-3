@@ -1,30 +1,28 @@
 const EmbeddedJson = require('./embeddedJson');
 const ImageSet = require('./imageSet');
 const ProjectSet = require('./projectSet');
-
-const commentsRegex = /<!--.*?-->/gs;
-const paragraphsRegex = /(<p>.*?<\/p>\s*)+/gs;
-const wrappedParagraphs = '<section>$&</section>';
+const ProjectHeading = require('./projectHeading');
+const Comment = require('./comment');
+const Section = require('./section');
 
 class HtmlBlock {
 	static generate(html) {
-		const imageSets = EmbeddedJson.extract('imageSet', html);
-		const projectSets = EmbeddedJson.extract('projects', html);
+		const imageSets = EmbeddedJson.extractAll('imageSet', html);
 		let htmlBlock = html;
 
-		if (imageSets)
-			htmlBlock = EmbeddedJson.replaceAll('imageSet', htmlBlock, index =>
-				ImageSet.generateElement(imageSets[index], index)
-			);
+		htmlBlock = EmbeddedJson.replaceAll('imageSet', htmlBlock, index =>
+			ImageSet.generateElement(imageSets[index], index)
+		);
 
-		if (projectSets)
-			htmlBlock = EmbeddedJson.replaceAll('projects', htmlBlock, index =>
-				ProjectSet.generateElement(index)
-			);
+		htmlBlock = EmbeddedJson.replaceAll('projects', htmlBlock, index =>
+			ProjectSet.generateElement(index)
+		);
 
-		htmlBlock = htmlBlock.replace(commentsRegex, '');
+		htmlBlock = ProjectHeading.replaceAll(htmlBlock);
 
-		htmlBlock = htmlBlock.replace(paragraphsRegex, wrappedParagraphs);
+		htmlBlock = Comment.removeAll(htmlBlock);
+
+		htmlBlock = Section.wrapParagraphs(htmlBlock);
 
 		return htmlBlock;
 	}

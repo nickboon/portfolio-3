@@ -47,7 +47,7 @@ class ProjectSet {
 	}
 
 	static generateElement(id = '') {
-		return `<ProjectSet projects={projects${id}} />`;
+		return `<ProjectSet projects={projects${id}} level={level + 1} />`;
 	}
 }
 

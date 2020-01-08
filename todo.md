@@ -3,8 +3,7 @@
 ## no js
 
 1. Create reactive grid
-2. Automate heading levels for nested projects
-3. Add deploy script
+2. Add deploy script
 
 ## With js
 
