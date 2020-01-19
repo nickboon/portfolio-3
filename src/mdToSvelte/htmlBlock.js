@@ -19,9 +19,7 @@ class HtmlBlock {
 		);
 
 		htmlBlock = ProjectHeading.replaceAll(htmlBlock);
-
 		htmlBlock = Comment.removeAll(htmlBlock);
-
 		htmlBlock = Section.wrapParagraphs(htmlBlock);
 
 		return htmlBlock;
