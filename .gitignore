@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
-public/bundle.*
-public/index.html
+public
 built
 ./md
 ./portfolio.config.json
