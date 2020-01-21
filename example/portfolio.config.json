@@ -1,0 +1,6 @@
+{
+	"content": {
+		"md": "./example/content/md/",
+		"public": "./example/content/public/"
+	}
+}
