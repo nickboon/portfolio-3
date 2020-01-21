@@ -9,7 +9,7 @@ import svelteStaticHtml from 'rollup-plugin-svelte-static-html';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.js',
+	input: 'src/build.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -47,7 +47,7 @@ export default {
 		svelteStaticHtml({
 			component: 'built/Root.svelte',
 			output: 'public/index.html',
-			template: 'built/index.html'
+			template: 'public/index.html'
 		})
 	]
 };

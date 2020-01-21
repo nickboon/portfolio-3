@@ -1,0 +1,6 @@
+{
+	"content": {
+		"md": "<../path/to/content/md>",
+		"public": "<../portfolio-content/public>"
+	}
+}

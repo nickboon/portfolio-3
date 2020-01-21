@@ -3,7 +3,6 @@
 ## no js
 
 1. Create reactive grid
-2. Add deploy script
 
 ## With js
 

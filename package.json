@@ -2,22 +2,23 @@
 	"name": "portfolio-3",
 	"version": "1.0.0",
 	"scripts": {
-		"clean:svelte": "rimraf ./built/",
-		"generate:svelte": "node src/mdToSvelte/mdToSvelte.js ../portfolio-content/md/",
+		"clean": "rimraf ./built/ ./md/ ./public/",
+		"load:content": "node src/loadContent",
+		"load:content:example": "node src/loadContent ../example/portfolio.config",
+		"generate:svelte": "node src/mdToSvelte/mdToSvelte.js",
 		"prettify:svelte": "prettier --write \"built\\*.svelte\"",
-		"build:svelte": "run-s clean:svelte generate:svelte prettify:svelte",
-		"prebuild": "node src/prebuild.js \"Nick Boon\"",
+		"prebuild": "run-s clean load:content generate:svelte prettify:svelte",
 		"build": "rollup -c",
-		"preautobuild": "npm run prebuild",
 		"autobuild": "rollup -c -w",
-		"dev": "npm run build:svelte && run-p start:dev autobuild",
+		"dev": "npm run prebuild && run-p start:dev autobuild",
 		"start": "sirv public",
 		"start:dev": "sirv public --dev",
-		"deploy:neocities": "neocities-deploy --source public --dest public/v4 --ignore *.map --ignore *.js"
+		"deploy:neocities": "neocities-deploy --source public --dest public/v3 --ignore *.map --ignore *.js"
 	},
 	"author": "boonnick@hotmail.com",
 	"license": "ISC",
-	"devDependencies": {
+	"dependencies": {
+		"fs-extra": "^8.1.0",
 		"neocities-deploy": "^1.0.0",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^1.19.1",

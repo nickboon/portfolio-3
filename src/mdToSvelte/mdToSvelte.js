@@ -22,10 +22,10 @@ const converter = new Converter({
 	encodeEmails: true
 });
 
-const sourceDir = process.argv[2];
+const sourceDir = path.resolve('md');
 if (!fs.existsSync(sourceDir)) {
-	console.warn(`Source directory ${sourceDir} not found!`);
-	return;
+	console.error(`Source directory ${sourceDir} not found!`);
+	process.exit(0);
 }
 
 const outputDir = path.resolve('built');
@@ -38,3 +38,5 @@ fs.readdirSync(sourceDir)
 		const fileName = capitalizeInitial(path.parse(file).name) + '.svelte';
 		fs.writeFileSync(path.join(outputDir, fileName), toSvelte(md));
 	});
+
+process.exit(0);
