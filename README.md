@@ -38,7 +38,7 @@ Sample Markdown:
     ```
     {
         "imageSet": {
-            "name": "project A Photos"
+            "name": "project A Photos",
             "images": [
                 {
                     "url": "https://pictures.server.com.project_a/1.jpg",

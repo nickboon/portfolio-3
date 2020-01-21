@@ -13,7 +13,8 @@
 		"dev": "npm run prebuild && run-p start:dev autobuild",
 		"start": "sirv public",
 		"start:dev": "sirv public --dev",
-		"deploy:neocities": "neocities-deploy --source public --dest public/v3 --ignore *.map --ignore *.js"
+		"deploy:neocities": "neocities-deploy --source public --dest public/v3 --ignore *.map --ignore *.js",
+		"example": "run-s clean load:content:example generate:svelte prettify:svelte && run-p start:dev autobuild"
 	},
 	"author": "boonnick@hotmail.com",
 	"license": "ISC",
