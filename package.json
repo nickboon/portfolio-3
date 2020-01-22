@@ -14,7 +14,8 @@
 		"start": "sirv public",
 		"start:dev": "sirv public --dev",
 		"deploy:neocities": "neocities-deploy --source public --dest public/v3 --ignore *.map --ignore *.js",
-		"example": "run-s clean load:content:example generate:svelte prettify:svelte && run-p start:dev autobuild"
+		"example": "run-s clean load:content:example generate:svelte prettify:svelte && run-p start:dev autobuild",
+		"write:config": "echo {\"content\": {\"md\": \"../path/to/content/md\",\"public\": \"../path/to/content/public\"}} > portfolio.config.json"
 	},
 	"author": "boonnick@hotmail.com",
 	"license": "ISC",
