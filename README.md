@@ -21,10 +21,6 @@ If you want to locate this file elsewhere you can pass the path as a parameter t
 
 You can also add static web files files to the location specified in the `content.public` property. An index.html file in this location will be used as a template to which the generated content will be added.
 
-```
-    	"generate:svelte": "node src/mdToSvelte/mdToSvelte.js ./path/to/markdown/directory/"
-```
-
 ## Markdown source files
 
 One of the file must be named `Root.md`. This will be converted into the root Svelte component, which can then load other generated components by including a project set.
