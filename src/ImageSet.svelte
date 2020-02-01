@@ -28,7 +28,7 @@
 	}
 </script>
 
-<ul>
+<ul class="imageSet">
 	{#each images as image}
 		<li>
 			<img
