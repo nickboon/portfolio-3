@@ -2,6 +2,7 @@ const EmbeddedJson = require('./embeddedJson');
 const ImageSet = require('./imageSet');
 const ProjectSet = require('./projectSet');
 const ProjectHeading = require('./projectHeading');
+const Comment = require('./comment');
 
 function generateImports({ headings, imageSets, projectSets } = {}) {
 	return [
@@ -24,6 +25,8 @@ function generateConsts({ imageSets, projectSets } = {}) {
 
 class ScriptBlock {
 	static generate(html) {
+		html = Comment.removeAll(html);
+
 		const imageSets = EmbeddedJson.extractAll('imageSet', html);
 		const projectSets = EmbeddedJson.extractAll('projects', html);
 		const headings = ProjectHeading.extractAll(html);

@@ -1,4 +1,4 @@
-const commentsRegex = /<!--.*?-->/gs;
+const commentsRegex = /(<|&lt;)!--.*?--(>|&gt;)/gs;
 
 class Comment {
 	static removeAll(html) {
