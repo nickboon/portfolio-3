@@ -2,6 +2,18 @@
 	export let name = '';
 	export let images = [];
 
+	function hash(str) {
+		const length = str.length;
+		let result = 0;
+		if (length == 0) return result;
+		for (let i = length; i > 0; i--) {
+			let char = str.charCodeAt(i);
+			result = (result << 5) - result + char;
+			result = result & result; // Convert to 32bit integer
+		}
+		return result;
+	}
+
 	function generatePlainTextInfo(image) {
 		if (image === undefined) return '';
 
@@ -26,15 +38,60 @@
 
 		return info[0].toUpperCase() + info.slice(1) + '.';
 	}
+
+	function getPreviousId(thisIndex) {
+		return thisIndex <= 0
+			? false
+			: imagePrefix + hash(images[thisIndex - 1].url);
+	}
+
+	function getNextid(thisIndex) {
+		return thisIndex >= images.length - 1
+			? false
+			: imagePrefix + hash(images[thisIndex + 1].url);
+	}
+
+	const imagePrefix = 'image_';
+
+	images.forEach((image, index) => {
+		image.id = imagePrefix + hash(image.url);
+		image.previousId = getPreviousId(index);
+		image.nextId = getNextid(index);
+		image.plainTextInfo = generatePlainTextInfo(image);
+	});
 </script>
 
 <ul class="imageSet">
 	{#each images as image}
-		<li>
-			<img
-				src={image.url}
-				alt={generatePlainTextInfo(image)}
-				title={generatePlainTextInfo(image)} />
+		<li class="image">
+			<a href="#{image.id}" class="thumbnail">
+				<img src={image.url} alt={image.plainTextInfo} />
+			</a>
+			<div id={image.id} class="overlay">
+				<a href="#projects" class="close-icon">&times;</a>
+				<figure>
+					{#if image.nextId}
+						<a href="#{image.nextId}">
+							<img src={image.url} alt={image.plainTextInfo} />
+						</a>
+					{:else}
+						<a href="#projects">
+							<img src={image.url} alt={image.plainTextInfo} />
+						</a>
+					{/if}
+					<figcaption>{image.plainTextInfo}</figcaption>
+				</figure>
+				{#if image.previousId}
+					<a href="#{image.previousId}" class="previous-link">
+						<span class="previous-icon">&lang;</span>
+					</a>
+				{/if}
+				{#if image.nextId}
+					<a href="#{image.nextId}" class="next-link">
+						<span class="next-icon">&rang;</span>
+					</a>
+				{/if}
+			</div>
 		</li>
 	{/each}
 </ul>
