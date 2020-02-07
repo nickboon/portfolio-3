@@ -39,6 +39,13 @@
 		return info[0].toUpperCase() + info.slice(1) + '.';
 	}
 
+	function generateHtmlInfo(image) {
+		if (image.title) image.title = `<em>${image.title}</em>`;
+		if (image.link)
+			image.link = `<a href="${image.link}" target="_blank">${image.link}</a>`;
+		return generatePlainTextInfo(image);
+	}
+
 	function getPreviousId(thisIndex) {
 		return thisIndex <= 0
 			? false
@@ -58,6 +65,7 @@
 		image.previousId = getPreviousId(index);
 		image.nextId = getNextid(index);
 		image.plainTextInfo = generatePlainTextInfo(image);
+		image.htmlInfo = generateHtmlInfo(image);
 	});
 </script>
 
@@ -79,7 +87,9 @@
 							<img src={image.url} alt={image.plainTextInfo} />
 						</a>
 					{/if}
-					<figcaption>{image.plainTextInfo}</figcaption>
+					<figcaption>
+						{@html image.htmlInfo}
+					</figcaption>
 				</figure>
 				{#if image.previousId}
 					<a href="#{image.previousId}" class="previous-link">
