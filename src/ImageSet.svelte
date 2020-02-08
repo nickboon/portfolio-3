@@ -44,6 +44,7 @@
 			image.edition,
 			image.author,
 			image.date,
+			image.info,
 			image.credit,
 			image.link
 		]
