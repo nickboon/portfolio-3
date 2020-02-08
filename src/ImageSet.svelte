@@ -2,6 +2,26 @@
 	export let name = '';
 	export let images = [];
 
+	console.log('images', images);
+
+	function validate(images) {
+		return (
+			images
+				// each images needs at least one url reference
+				.filter(image => image.url || image.urls.large || image.urls.small)
+				.map(image => {
+					// set large and small urls if they are unset
+					if (!image.urls) image.urls = { large: image.url, small: image.url };
+					if (!image.urls.small)
+						image.urls.small = image.urls.large || image.url;
+					if (!image.urls.large)
+						image.urls.small = image.urls.small || image.url;
+
+					return image;
+				})
+		);
+	}
+
 	function hash(str) {
 		const length = str.length;
 		let result = 0;
@@ -49,19 +69,20 @@
 	function getPreviousId(thisIndex) {
 		return thisIndex <= 0
 			? false
-			: imagePrefix + hash(images[thisIndex - 1].url);
+			: imagePrefix + hash(images[thisIndex - 1].urls.large);
 	}
 
 	function getNextid(thisIndex) {
 		return thisIndex >= images.length - 1
 			? false
-			: imagePrefix + hash(images[thisIndex + 1].url);
+			: imagePrefix + hash(images[thisIndex + 1].urls.large);
 	}
 
 	const imagePrefix = 'image_';
 
+	images = validate(images);
 	images.forEach((image, index) => {
-		image.id = imagePrefix + hash(image.url);
+		image.id = imagePrefix + hash(image.urls.large);
 		image.previousId = getPreviousId(index);
 		image.nextId = getNextid(index);
 		image.plainTextInfo = generatePlainTextInfo(image);
@@ -69,22 +90,23 @@
 	});
 </script>
 
+<!-- {JSON.stringify(images)} -->
 <ul class="imageSet">
 	{#each images as image}
 		<li class="image">
 			<a href="#{image.id}" class="thumbnail">
-				<img src={image.url} alt={image.plainTextInfo} />
+				<img src={image.urls.small} alt={image.plainTextInfo} />
 			</a>
 			<div id={image.id} class="overlay">
 				<a href="#projects" class="close-icon">&times;</a>
 				<figure>
 					{#if image.nextId}
 						<a href="#{image.nextId}">
-							<img src={image.url} alt={image.plainTextInfo} />
+							<img src={image.urls.large} alt={image.plainTextInfo} />
 						</a>
 					{:else}
 						<a href="#projects">
-							<img src={image.url} alt={image.plainTextInfo} />
+							<img src={image.urls.large} alt={image.plainTextInfo} />
 						</a>
 					{/if}
 					<figcaption>
