@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const ScriptBlock = require('./scriptBlock');
 const HtmlBlock = require('./htmlBlock');
+const targetlink = require('./targetlinkExtension');
 
 function capitalizeInitial(word) {
 	return word[0].toUpperCase() + word.slice(1);
@@ -19,7 +20,8 @@ const converter = new Converter({
 	excludeTrailingPunctuationFromURLs: true,
 	literalMidWordUnderscores: true,
 	simpleLineBreaks: true,
-	encodeEmails: true
+	encodeEmails: true,
+	extensions: [targetlink]
 });
 
 const sourceDir = path.resolve('md');
